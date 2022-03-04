@@ -1,0 +1,16 @@
+body::before {
+	display: block;
+	content: "";
+	height: 82px;
+}
+
+.answers {
+	text-decoration: none;
+	color: black;
+	transition: all 0.2s ease-in;
+}
+
+.answers:hover {
+	color: black;
+	background: #e8e8e8;
+}
