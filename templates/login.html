@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'home.html'%}
 
-</body>
-</html>
+{% block title %}
+Login
+{% endblock %}
+
+
+
+{% block content %}
+
+<h2 class="fw-light fs-2 mb-4">Login</h2>
+
+<div class="d-flex flex-column">
+    
+    <form action="" method="post">
+
+        <!-- INPUT NAME AND INPUT PASSWORD -->
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <label for="floatingInput">Name</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <label for="floatingPassword">Password</label>
+        </div>
+
+        <!-- REGISTER BUTTON -->
+        <div class="d-flex mt-4 justify-content-md-start">
+          <button class="btn btn-warning me-md-2" type="button">Login</button>
+        </div>
+
+    </form>
+
+</div>
+
+
+{% endblock %}
