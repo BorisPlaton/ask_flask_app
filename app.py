@@ -28,5 +28,10 @@ def answer_question():
     return render_template("answer_question.html")
 
 
+@app.route("/unanswered_questions")
+def unanswered_question():
+    return render_template("unaswered_question.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)

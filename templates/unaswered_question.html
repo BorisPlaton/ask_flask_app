@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'home.html' %}
 
-</body>
-</html>
+{% block title %} Answer a Question {% endblock %}
+
+{% block content %}
+
+<h2 class="fw-light fs-2 mb-4">Questions for You</h2>
+
+<div class="d-flex flex-column">
+    
+    <!-- BLOCKS OF THE QUESTIONS -->
+
+    <a href="#" class="answers mb-2">
+        <div class="bg-dark p-4 " style="--bs-bg-opacity: .07;">
+            <h4 class="fw-light fs-4">Question One</h4>
+            <span class="text-secondary">Asked by: Herbert
+        </div>
+    </a>
+
+</div>
+
+{% endblock %}
