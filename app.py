@@ -33,5 +33,15 @@ def unanswered_question():
     return render_template("unaswered_question.html")
 
 
+@app.route("/answered_questions")
+def answered_questions():
+    return render_template("answered_question.html")
+
+
+@app.route("/users")
+def users():
+    return render_template("users.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
