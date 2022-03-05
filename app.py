@@ -4,20 +4,20 @@ import sqlite3
 app = Flask(__name__)
 
 
-def connect_db():   # Подключение базы данных
-    sql = sqlite3.connect("ask_app.db")
+def connect_db():  # Подключение базы данных
+    sql = sqlite3.connect("food.db")
     sql.row_factory = sqlite3.Row
     return sql
 
 
-def get_db():   # Получение базы данных
-    if not hasattr(g, "sqlite_db"):
+def get_db():  # Получение базы данных
+    if not hasattr(g, "sqlite3"):
         g.sqlite_db = connect_db()
     return g.sqlite_db
 
 
-@app.teardown_appcontext    # Закрытие соединения с базой данных при получении страницы
-def close_db():
+@app.teardown_appcontext
+def close_db(error):  # Закрытие соединения с базой данных при получении страницы
     if hasattr(g, "sqlite_db"):
         g.sqlite_db.close()
 
