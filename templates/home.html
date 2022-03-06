@@ -55,14 +55,16 @@
             
             <!-- BLOCKS OF THE QUESTIONS -->
 
-            <a href="#" class="answers mb-2">
-                <div class="bg-dark p-4 " style="--bs-bg-opacity: .07;">
-                    <h4 class="fw-light fs-4">Question One</h4>
-                    <span class="text-secondary">Asked by: Herbert
-                    <br>
-                    <span>Answered by: Anthony</span>
-                </div>
-            </a>
+            {% for question in questions %}
+                <a href="{{ url_for('answered_questions', id_question=question.id) }}" class="answers mb-2">
+                    <div class="bg-dark p-4 " style="--bs-bg-opacity: .07;">
+                        <h4 class="fw-light fs-4">{{ question.text }}</h4>
+                        <span class="text-secondary">Asked by: {{ question.asker_name}}
+                        <br>
+                        Answered by: {{ question.expert_name }}</span>
+                    </div>
+                </a>
+            {% endfor %}
 
         </div>
         {% endblock %}

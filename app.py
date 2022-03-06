@@ -41,7 +41,18 @@ def close_db(error):  # Закрытие соединения с базой да
 @app.route("/")
 def home():
     user = user_session()
-    return render_template("home.html", user=user)
+
+    db = get_db()
+    cur = db.execute("""
+                SELECT asker.user_name AS asker_name, expert.user_name AS expert_name, question.id AS id, question.text_question as text 
+                FROM question 
+                    JOIN user AS asker ON question.id_user = asker.id
+                    JOIN user AS expert ON question.id_expert = expert.id
+                WHERE question.answer IS NOT NULL;
+            """)
+    questions = cur.fetchall()
+
+    return render_template("home.html", user=user, questions=questions)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -122,8 +133,9 @@ def answer_question(id_question):
             db = get_db()
             db.execute("""
                 UPDATE question
-                SET answer = (?);
-            """, [request.form["answer"]])
+                SET answer = (?)
+                WHERE id = (?);
+            """, [request.form["answer"], id_question])
             db.commit()
             return redirect(url_for("answer_question", id_question=id_question))
         return render_template("answer_question.html", user=user, id_question=id_question)
@@ -151,10 +163,24 @@ def unanswered_question():
         return redirect(url_for("home"))
 
 
-@app.route("/answered_questions")
-def answered_questions():
+@app.route("/answered_questions/<id_question>")
+def answered_questions(id_question):
     user = user_session()
-    return render_template("answered_question.html", user=user)
+
+    db = get_db()
+    cur = db.execute("""
+                    SELECT asker.user_name AS asker_name, expert.user_name AS expert_name, question.id AS id, question.text_question as text, question.answer as answer
+                    FROM question 
+                        JOIN user AS asker ON question.id_user = asker.id
+                        JOIN user AS expert ON question.id_expert = expert.id
+                    WHERE question.answer IS NOT NULL and question.id = (?);
+                """, [id_question])
+    question = cur.fetchone()
+
+    if question:
+        return render_template("answered_question.html", user=user, question=question)
+
+    return redirect(url_for("home"))
 
 
 @app.route("/users")

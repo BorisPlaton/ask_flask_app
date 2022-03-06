@@ -1,6 +1,6 @@
 {% extends 'home.html' %}
 
-{% block title %} Answer a Question {% endblock %}
+{% block title %} Answer on the Question {% endblock %}
 
 {% block content %}
 
@@ -10,14 +10,14 @@
     
     <!-- BLOCKS OF THE QUESTIONS -->
 
-    <a href="#" class="answers mb-2">
-        <div class="bg-dark p-4 " style="--bs-bg-opacity: .07;">
-            <h4 class="fw-light fs-4">Question One</h4>
-            <span class="text-secondary">Asked by: Herbert
-            <br>
-            <span>Answered by: Anthony</span>
-        </div>
-    </a>
+    <div class="bg-dark p-4 " style="--bs-bg-opacity: .07;">
+        <h4 class="fw-light fs-4">{{ question.text }}</h4>
+        <span class="text-secondary">Asked by: {{ question.asker_name }}
+        <br>
+        Answered by: {{ question.expert_name }}</span>
+        <p class="mt-5 fs-4">{{ question.answer }}</p>
+    </div>
+
 
 </div>
 

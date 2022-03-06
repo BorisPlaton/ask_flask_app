@@ -15,10 +15,10 @@
              style="{% if user.admin or user.expert %} --bs-bg-opacity: .5; {% else %} --bs-bg-opacity: .07; {% endif %}">
             <h4 class="fw-light fs-5">{{ user.user_name }}</h4>
 
-            <a href="{{ url_for('promote', user_id=user.id, role='admin' ) }}" class="answers ms-4">
+            <a href="{{ url_for('promote', user_id=user.id, role='admin' ) }}" class="ms-4">
                 <div class="p-3 bg-success rounded-circle"></div>
             </a>
-            <a href="{{ url_for('promote', user_id=user.id, role='expert' ) }}" class="answers ms-2">
+            <a href="{{ url_for('promote', user_id=user.id, role='expert' ) }}" class="ms-2">
                 <div class="p-3 bg-primary rounded-circle"></div>
             </a>
 
