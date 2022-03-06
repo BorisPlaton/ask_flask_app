@@ -111,21 +111,39 @@ def answered_questions():
 @app.route("/users")
 def users():
     user = user_session()
-    if user:    # Если пользователь в сессии
+
+    if not user:    # Если пользователь в сессии
+        return redirect(url_for("login"))
+
+    if user["admin"]:  # Есть ли права админа
         db = get_db()
         cur = db.execute("""
-            SELECT admin FROM user
-            WHERE user_name = (?);
-        """, [user["user_name"]])
-        if cur.fetchone()["admin"]:  # Есть ли права админа
-            cur = db.execute("""
-                SELECT * FROM user;
-            """)
-            users_lists = cur.fetchall()
-            return render_template("users.html", user=user, users_list=users_lists)
-        else:
-            return redirect(url_for("home"))
-    return redirect(url_for("login"))
+            SELECT * FROM user;
+        """)
+        users_lists = cur.fetchall()
+        return render_template("users.html", user=user, users_list=users_lists)
+    else:
+        return redirect(url_for("home"))
+
+
+@app.route("/promote/<user_id>")
+def promote(user_id):
+    user = user_session()
+
+    if not user:  # Если пользователь в сессии
+        return redirect(url_for("login"))
+
+    if user["admin"]:  # Есть ли права админа
+        db = get_db()
+        cur = db.execute("""
+            UPDATE user 
+            SET admin = CASE WHEN admin=1 THEN 0 ELSE 1 END
+            WHERE id = (?);
+        """, [user_id])
+        db.commit()
+        return redirect(url_for("users"))
+    else:
+        return redirect(url_for("home"))
 
 
 if __name__ == "__main__":

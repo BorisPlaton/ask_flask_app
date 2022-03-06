@@ -11,7 +11,7 @@
     <!-- BLOCKS OF THE QUESTIONS -->
 
     {% for user in users_list %}
-    <a href="#" class="answers mb-2">
+    <a href="{{ url_for('promote', user_id=user.id) }}" class="answers mb-2">
         <div class="{% if user.admin %} bg-success {% else %} bg-dark {% endif %} p-3"
              style="{% if user.admin %} --bs-bg-opacity: .5; {% else %} --bs-bg-opacity: .07; {% endif %}">
             <h4 class="fw-light fs-5">{{ user.user_name }}</h4>
