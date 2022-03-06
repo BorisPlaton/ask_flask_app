@@ -25,9 +25,13 @@
         <div class="collapse navbar-collapse" id="navmenu">
             <ul class="navbar-nav ms-auto text-light justify-content-center align-items-center">
                 {% if user %}
-                <li class="nav-item"><a href="{{ url_for('ask_question') }}" class="nav-link">Ask a Question</a></li> 
+                <li class="nav-item"><a href="{{ url_for('ask_question') }}" class="nav-link">Ask a Question</a></li>
+                {% if user.expert %}
                 <li class="nav-item"><a href="{{ url_for('answer_question') }}" class="nav-link">Answer Questions</a></li>
+                {% endif %}
+                {% if user.admin %}
                 <li class="nav-item"><a href="{{ url_for('users') }}" class="nav-link">User Setup</a></li>
+                {% endif %}
                 <li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link"><span><i class="bi bi-box-arrow-right fs-5" style="vertical-align: 0.25em;"></i></span></a></li>
                 {% else %}
                 <li class="nav-item"><a href="{{ url_for('login') }}" class="nav-link">Login</a></li>

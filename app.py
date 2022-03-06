@@ -71,7 +71,7 @@ def login():
             SELECT password FROM user
             WHERE user_name = (?);
         """, [user_name])
-        if check_password_hash(cur.fetchone()["password"], request.form["password"]):
+        if check_password_hash(cur.fetchone()["password"], request.form["password"]):   # Сравниваем хэш паролей
             session["user"] = user_name
             return redirect(url_for("home"))
 
@@ -111,7 +111,21 @@ def answered_questions():
 @app.route("/users")
 def users():
     user = user_session()
-    return render_template("users.html", user=user)
+    if user:    # Если пользователь в сессии
+        db = get_db()
+        cur = db.execute("""
+            SELECT admin FROM user
+            WHERE user_name = (?);
+        """, [user["user_name"]])
+        if cur.fetchone()["admin"]:  # Есть ли права админа
+            cur = db.execute("""
+                SELECT * FROM user;
+            """)
+            users_lists = cur.fetchall()
+            return render_template("users.html", user=user, users_list=users_lists)
+        else:
+            return redirect(url_for("home"))
+    return redirect(url_for("login"))
 
 
 if __name__ == "__main__":

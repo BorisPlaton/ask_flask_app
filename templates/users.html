@@ -10,11 +10,14 @@
     
     <!-- BLOCKS OF THE QUESTIONS -->
 
+    {% for user in users_list %}
     <a href="#" class="answers mb-2">
-        <div class="bg-dark p-3" style="--bs-bg-opacity: .07;">
-            <h4 class="fw-light fs-5">Admin</h4>
+        <div class="{% if user.admin %} bg-success {% else %} bg-dark {% endif %} p-3"
+             style="{% if user.admin %} --bs-bg-opacity: .5; {% else %} --bs-bg-opacity: .07; {% endif %}">
+            <h4 class="fw-light fs-5">{{ user.user_name }}</h4>
         </div>
     </a>
+    {% endfor %}
 
 </div>
 
