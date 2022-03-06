@@ -78,29 +78,40 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("home"))
+
+
 @app.route("/ask_a_question")
 def ask_question():
-    return render_template("ask_question.html")
+    user = user_session()
+    return render_template("ask_question.html", user=user)
 
 
 @app.route("/answer_a_question")
 def answer_question():
-    return render_template("answer_question.html")
+    user = user_session()
+    return render_template("answer_question.html", user=user)
 
 
 @app.route("/unanswered_questions")
 def unanswered_question():
-    return render_template("unaswered_question.html")
+    user = user_session()
+    return render_template("unaswered_question.html", user=user)
 
 
 @app.route("/answered_questions")
 def answered_questions():
-    return render_template("answered_question.html")
+    user = user_session()
+    return render_template("answered_question.html", user=user)
 
 
 @app.route("/users")
 def users():
-    return render_template("users.html")
+    user = user_session()
+    return render_template("users.html", user=user)
 
 
 if __name__ == "__main__":
