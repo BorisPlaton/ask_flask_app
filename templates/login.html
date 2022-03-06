@@ -16,17 +16,27 @@ Login
 
         <!-- INPUT NAME AND INPUT PASSWORD -->
         <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-          <label for="floatingInput">Name</label>
+            <input name="login"
+                   type="text"
+                   class="form-control"
+                   id="floatingInput"
+                   placeholder="Login"
+                   autocomplete="off" required>
+            <label for="floatingInput">Login</label>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-          <label for="floatingPassword">Password</label>
+            <input name="password"
+                   type="password"
+                   class="form-control"
+                   id="floatingPassword"
+                   placeholder="Password"
+                   autocomplete="off" required>
+            <label for="floatingPassword">Password</label>
         </div>
 
         <!-- REGISTER BUTTON -->
         <div class="d-flex mt-4 justify-content-md-start">
-          <button class="btn btn-warning me-md-2" type="button">Login</button>
+          <button class="btn btn-warning me-md-2" type="submit">Login</button>
         </div>
 
     </form>
