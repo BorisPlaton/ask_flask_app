@@ -84,10 +84,30 @@ def logout():
     return redirect(url_for("home"))
 
 
-@app.route("/ask_a_question")
+@app.route("/ask_a_question", methods=["POST", "GET"])
 def ask_question():
     user = user_session()
-    return render_template("ask_question.html", user=user)
+
+    if not user:
+        return redirect(url_for("login"))
+
+    db = get_db()
+    cur = db.execute("""
+        SELECT * FROM user
+        WHERE expert = 1;
+    """)
+    experts = cur.fetchall()
+
+    if request.method == "POST":
+        db.execute("""
+            INSERT INTO question (id_expert, id_user, text_question)
+            VALUES
+                (?, ?, ?);
+        """, [request.form["expert_id"], user["id"], request.form["question_text"]])
+        db.commit()
+        return redirect(url_for("ask_question"))
+
+    return render_template("ask_question.html", user=user, experts=experts)
 
 
 @app.route("/answer_a_question")
@@ -126,8 +146,8 @@ def users():
         return redirect(url_for("home"))
 
 
-@app.route("/promote/<user_id>")
-def promote(user_id):
+@app.route("/promote/<user_id>/<role>")
+def promote(user_id, role):
     user = user_session()
 
     if not user:  # Если пользователь в сессии
@@ -135,12 +155,20 @@ def promote(user_id):
 
     if user["admin"]:  # Есть ли права админа
         db = get_db()
-        cur = db.execute("""
-            UPDATE user 
-            SET admin = CASE WHEN admin=1 THEN 0 ELSE 1 END
-            WHERE id = (?);
-        """, [user_id])
-        db.commit()
+        if role == 'admin':
+            db.execute("""
+                UPDATE user 
+                SET admin = CASE WHEN admin=1 THEN 0 ELSE 1 END
+                WHERE id = (?);
+            """, [user_id])
+            db.commit()
+        elif role == "expert":
+            db.execute("""
+                UPDATE user 
+                SET expert = CASE WHEN expert=1 THEN 0 ELSE 1 END
+                WHERE id = (?);
+            """, [user_id])
+            db.commit()
         return redirect(url_for("users"))
     else:
         return redirect(url_for("home"))

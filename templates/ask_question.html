@@ -9,12 +9,12 @@
 <div class="d-flex flex-column">
     
     <!-- INPUTS -->
-    <form action="" method="post">  
+    <form action="{{ url_for('ask_question') }}" method="post">
 
         <div class="d-flex" style="height: 50vh;">
 
             <div class="flex-fill">
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="resize: none; height: 100%;" placeholder="Question"></textarea>
+                <textarea name="question_text" class="form-control" id="exampleFormControlTextarea1" rows="3" style="resize: none; height: 100%;" placeholder="Question"></textarea>
             </div>
 
         </div>
@@ -23,16 +23,17 @@
 
             <!-- DROPDOWN -->
             <div class="dropdown" style="width: 50%;">
-                <select class="form-select" aria-label="Default select example" name="food_id">
-                    {% for food in food_list %}
-                        <option value="{{ food.food_id }}">{{ food.food_name }}</option>
+                <select class="form-select" aria-label="Default select example" name="expert_id">
+                    {% for expert in experts %}
+                        <option value="{{ expert.id }}">{{ expert.user_name }}</option>
                     {% endfor %}
                 </select>
             </div> 
 
             <!-- SUBMIT BUTTON -->
-            <div class="d-flex justify-content-md-start">
-              <button class="btn btn-warning" type="button">Submit</button>
+            <div class="d-flex justify-content-md-start align-items-center">
+                {% if submit_status %}<span class="me-3 text-success fw-bold">Submitted!</span>{% endif %}
+                <button class="btn btn-warning" type="submit">Submit</button>
             </div>
 
         </div>
