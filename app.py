@@ -110,16 +110,45 @@ def ask_question():
     return render_template("ask_question.html", user=user, experts=experts)
 
 
-@app.route("/answer_a_question")
-def answer_question():
+@app.route("/answer_a_question/<id_question>", methods=["POST", "GET"])
+def answer_question(id_question):
     user = user_session()
-    return render_template("answer_question.html", user=user)
+
+    if not user:    # Если пользователь в сессии
+        return redirect(url_for("login"))
+
+    if user["expert"]:  # Есть ли права эксперта
+        if request.method == "POST":
+            db = get_db()
+            db.execute("""
+                UPDATE question
+                SET answer = (?);
+            """, [request.form["answer"]])
+            db.commit()
+            return redirect(url_for("answer_question", id_question=id_question))
+        return render_template("answer_question.html", user=user, id_question=id_question)
+
+    return redirect(url_for("home"))
 
 
 @app.route("/unanswered_questions")
 def unanswered_question():
     user = user_session()
-    return render_template("unaswered_question.html", user=user)
+
+    if not user:    # Если пользователь в сессии
+        return redirect(url_for("login"))
+
+    if user["expert"]:  # Есть ли права эксперта
+        db = get_db()
+        cur = db.execute("""
+            SELECT * FROM 
+                question JOIN user ON question.id_user = user.id
+            WHERE question.id_expert = (?) and question.answer IS NULL;
+        """, [user["id"]])
+        questions = cur.fetchall()
+        return render_template("unaswered_question.html", user=user, questions=questions)
+    else:
+        return redirect(url_for("home"))
 
 
 @app.route("/answered_questions")

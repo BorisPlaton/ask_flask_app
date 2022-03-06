@@ -9,13 +9,18 @@
 <div class="d-flex flex-column">
     
     <!-- BLOCKS OF THE QUESTIONS -->
-
-    <a href="#" class="answers mb-2">
+    {% if questions %}
+    {% for question in questions %}
+    <a href="{{ url_for('answer_question', id_question=question.id) }}" class="answers mb-2">
         <div class="bg-dark p-4 " style="--bs-bg-opacity: .07;">
-            <h4 class="fw-light fs-4">Question One</h4>
-            <span class="text-secondary">Asked by: Herbert</span>
+            <h4 class="fw-light fs-4">Question {{ loop.index }}</h4>
+            <span class="text-secondary">Asked by: {{ question.user_name }}</span>
         </div>
     </a>
+    {% endfor %}
+    {% else %}
+    <p class="fs-4 text-secondary mb-2">No questions yet..</p>
+    {% endif %}
 
 </div>
 

@@ -27,7 +27,7 @@
                 {% if user %}
                 <li class="nav-item"><a href="{{ url_for('ask_question') }}" class="nav-link">Ask a Question</a></li>
                 {% if user.expert %}
-                <li class="nav-item"><a href="{{ url_for('answer_question') }}" class="nav-link">Answer Questions</a></li>
+                <li class="nav-item"><a href="{{ url_for('unanswered_question') }}" class="nav-link">Your Questions</a></li>
                 {% endif %}
                 {% if user.admin %}
                 <li class="nav-item"><a href="{{ url_for('users') }}" class="nav-link">User Setup</a></li>

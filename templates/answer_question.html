@@ -8,12 +8,12 @@
 
     <h2 class="fw-light fs-2 mb-4">A question</h2>
 
-    <form action="" method="post">  
+    <form action="{{ url_for('answer_question', id_question=id_question) }}" method="post">
 
         <div class="d-flex" style="height: 50vh;">
 
             <div class="flex-fill">
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="resize: none; height: 100%;" placeholder="Question"></textarea>
+                <textarea name='answer' class="form-control" id="exampleFormControlTextarea1" rows="3" style="resize: none; height: 100%;" placeholder="Question" required></textarea>
             </div>
 
         </div>
@@ -22,7 +22,7 @@
 
             <!-- SUBMIT BUTTON -->
             <div class="d-flex justify-content-md-start">
-              <button class="btn btn-warning" type="button">Answer</button>
+              <button class="btn btn-warning" type="submit">Answer</button>
             </div>
 
         </div>
